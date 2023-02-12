@@ -10,7 +10,9 @@ function Navbar() {
         <NavLink eventKey="active">Active</NavLink>
       </NavItem>
       <NavItem>
-        <NavLink eventKey="option-1">Option 2</NavLink>
+        <NavLink href="option-2" eventKey="option-1">
+          Option 2
+        </NavLink>
       </NavItem>
       <NavItem>
         <NavLink eventKey="third">Third</NavLink>
