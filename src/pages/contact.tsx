@@ -1,14 +1,7 @@
 import { Form } from "react-router-dom";
+import { contactType } from "../loaders/contacts";
 
 export default function Contact() {
-  interface contactType {
-    first: string;
-    last: string;
-    avatar: string;
-    twitter: string;
-    notes: string;
-    favorite: boolean;
-  }
   const contact: contactType = {
     first: "Your",
     last: "Name",
@@ -62,7 +55,11 @@ export default function Contact() {
             method="post"
             action="destroy"
             onSubmit={(event) => {
-              if (!confirm("Please confirm you want to delete this record.")) {
+              if (
+                !window.confirm(
+                  "Please confirm you want to delete this record."
+                )
+              ) {
                 event.preventDefault();
               }
             }}
@@ -75,9 +72,9 @@ export default function Contact() {
   );
 }
 
-function Favorite(props: any) {
+function Favorite({ contact }: { contact: contactType }) {
   // yes, this is a `let` for later
-  let favorite = props.contact.favorite;
+  let favorite = contact.favorite;
   return (
     <Form method="post">
       <button

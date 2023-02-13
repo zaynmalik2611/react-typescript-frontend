@@ -1,5 +1,6 @@
 import Nav from "react-bootstrap/Nav";
 import { NavItem, NavLink } from "react-bootstrap";
+import { Link } from "react-router-dom";
 // import { Item, Link } from 'react-bootstrap/Nav'
 
 function Navbar() {
@@ -7,15 +8,19 @@ function Navbar() {
   return (
     <Nav justify variant="tabs" defaultActiveKey="/home">
       <NavItem>
-        <NavLink eventKey="active">Active</NavLink>
-      </NavItem>
-      <NavItem>
-        <NavLink href="option-2" eventKey="option-1">
-          Option 2
+        <NavLink as={Link} to="/">
+          Active
         </NavLink>
       </NavItem>
       <NavItem>
-        <NavLink eventKey="third">Third</NavLink>
+        <NavLink as={Link} to="/error">
+          Error page
+        </NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink as={Link} to="/contacts/3">
+          Contact
+        </NavLink>
       </NavItem>
     </Nav>
   );
