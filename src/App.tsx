@@ -2,12 +2,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Outlet } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/header/Navbar";
-import { getContacts } from "./loaders/contacts";
 
-export async function loader() {
-  const contacts = await getContacts();
-  return contacts;
-}
+export async function loader() {}
 
 function App() {
   return (
