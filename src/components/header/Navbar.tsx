@@ -1,10 +1,8 @@
 import Nav from "react-bootstrap/Nav";
 import { NavItem, NavLink } from "react-bootstrap";
 import { Link } from "react-router-dom";
-// import { Item, Link } from 'react-bootstrap/Nav'
 
 function Navbar() {
-  //   const hello = "hello";
   return (
     <Nav justify variant="tabs" defaultActiveKey="/home">
       <NavItem>
