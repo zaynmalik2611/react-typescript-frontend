@@ -1,25 +1,18 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Outlet, useLoaderData } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/header/Navbar";
-import { getPosts } from "./loaders/posts";
-
-export async function loader() {
-  const posts = await getPosts();
-  console.log("posts: ", posts);
-  // return posts;
-  return "abs";
-}
+import Posts from "./components/posts/Posts";
 
 function App() {
-  const posts = useLoaderData() as string;
   return (
     <div className="App">
       <Navbar />
-      <div>{posts}</div>
-
       <div className="detail">
-        <Outlet />
+        <Routes>
+          <Route path="/" element={<Posts />} errorElement={<div>Error</div>} />
+          <Route path="*" element={<div>Error</div>} />
+        </Routes>
       </div>
     </div>
   );
