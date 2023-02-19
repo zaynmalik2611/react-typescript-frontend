@@ -5,11 +5,13 @@ export const useGetPosts = () => {
     {
       getPosts {
         id
+        title
         content
         userId
+        createdAt
       }
     }
   `;
-  const { data } = useQuery(POSTS_QUERY);
+  const { data } = useQuery<any>(POSTS_QUERY);
   return { posts: data };
 };

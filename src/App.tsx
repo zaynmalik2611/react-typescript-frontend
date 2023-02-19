@@ -8,12 +8,10 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <div className="detail">
-        <Routes>
-          <Route path="/" element={<Posts />} errorElement={<div>Error</div>} />
-          <Route path="*" element={<div>Error</div>} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<Posts />} errorElement={<div>Error</div>} />
+        <Route path="*" element={<div>Error</div>} />
+      </Routes>
     </div>
   );
 }
