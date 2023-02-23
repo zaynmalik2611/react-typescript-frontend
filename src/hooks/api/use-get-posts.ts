@@ -1,17 +1,12 @@
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 export const useGetPosts = () => {
-  const POSTS_QUERY = gql`
-    {
-      getPosts {
-        id
-        title
-        content
-        userId
-        createdAt
-      }
-    }
-  `;
-  const { data } = useQuery<any>(POSTS_QUERY);
-  return { posts: data };
+  return useQuery({
+    queryKey: ["posts"],
+    queryFn: async () => {
+      const response = await axios.get("http://localhost:3000/posts");
+      return response.data;
+    },
+  });
 };
