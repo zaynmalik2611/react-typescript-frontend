@@ -4,14 +4,34 @@ import Button from "react-bootstrap/Button";
 import FormLabel from "react-bootstrap/FormLabel";
 import FormControl from "react-bootstrap/FormControl";
 import { Col, Container, Row } from "react-bootstrap";
+import { useCreatePost } from "../../hooks/api/use-create-post";
+import React, { RefObject } from "react";
 
 export default function CreatePost() {
-  const makePost = (e: any) => {
+  const mutation = useCreatePost();
+  const titleInputRef: RefObject<HTMLInputElement> = React.createRef();
+  const contentInputRef: RefObject<HTMLTextAreaElement> = React.createRef();
+  const userIdInputRef: RefObject<HTMLInputElement> = React.createRef();
+  const formRef: RefObject<HTMLFormElement> = React.createRef();
+
+  const makePost = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    mutation.mutate(
+      {
+        content: contentInputRef.current!.value,
+        title: titleInputRef.current!.value,
+        userId: parseInt(userIdInputRef.current!.value),
+      },
+      {
+        onSuccess: () => {
+          formRef.current?.reset();
+        },
+      }
+    );
   };
   return (
     <Container className="mb-4">
-      <Form onSubmit={makePost}>
+      <Form onSubmit={makePost} ref={formRef}>
         <Row className="justify-content-md-center justify-content-sm-center">
           <Col className="col-md-8 col-sm-9">
             <FormGroup className="mb-3" controlId="title">
@@ -20,6 +40,7 @@ export default function CreatePost() {
                 required
                 type="text"
                 placeholder="Enter post title"
+                ref={titleInputRef}
               />
             </FormGroup>
             <FormGroup className="mb-3" controlId="content">
@@ -32,6 +53,7 @@ export default function CreatePost() {
                 style={{
                   resize: "none",
                 }}
+                ref={contentInputRef}
               />
             </FormGroup>
             <FormGroup className="mb-3" controlId="userId">
@@ -40,7 +62,8 @@ export default function CreatePost() {
                 required
                 type="number"
                 min={1}
-                placeholder="Content"
+                placeholder="UserId: "
+                ref={userIdInputRef}
               />
             </FormGroup>
           </Col>
