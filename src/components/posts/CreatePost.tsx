@@ -5,16 +5,18 @@ import FormLabel from "react-bootstrap/FormLabel";
 import FormControl from "react-bootstrap/FormControl";
 import { Col, Container, Row } from "react-bootstrap";
 import { useCreatePost } from "../../hooks/api/use-create-post";
-import React, { RefObject } from "react";
+import React, { RefObject, useState } from "react";
+import NotificationToast from "../common/NotificationToast";
 
 export default function CreatePost() {
+  const [createShow, setCreateShow] = useState(false);
+
   const mutation = useCreatePost();
   const titleInputRef: RefObject<HTMLInputElement> = React.createRef();
   const contentInputRef: RefObject<HTMLTextAreaElement> = React.createRef();
   const userIdInputRef: RefObject<HTMLInputElement> = React.createRef();
-  const formRef: RefObject<HTMLFormElement> = React.createRef();
 
-  const makePost = (e: React.FormEvent<HTMLFormElement>) => {
+  const makePost = (e: any) => {
     e.preventDefault();
     mutation.mutate(
       {
@@ -24,14 +26,15 @@ export default function CreatePost() {
       },
       {
         onSuccess: () => {
-          formRef.current?.reset();
+          e.target.reset();
+          setCreateShow(true);
         },
       }
     );
   };
   return (
     <Container className="mb-4">
-      <Form onSubmit={makePost} ref={formRef}>
+      <Form onSubmit={makePost}>
         <Row className="justify-content-md-center justify-content-sm-center">
           <Col className="col-md-8 col-sm-9">
             <FormGroup className="mb-3" controlId="title">
@@ -80,6 +83,12 @@ export default function CreatePost() {
           </Col>
         </Row>
       </Form>
+      <NotificationToast
+        onClose={() => setCreateShow(false)}
+        toastShow={createShow}
+        toastTitle={"Post Created"}
+        toastVariant={"info"}
+      />
     </Container>
   );
 }
