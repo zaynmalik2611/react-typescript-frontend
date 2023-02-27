@@ -47,7 +47,12 @@ export default function CreatePost() {
 
   return (
     <Container className="mb-4">
-      <Button onClick={() => setCreateShow(true)}>Make Post</Button>
+      <div className="d-flex justify-content-center">
+        <Button className="col-md-2" onClick={() => setCreateShow(true)}>
+          Make Post
+        </Button>
+      </div>
+
       <MyModal
         title="Create Post"
         handleClose={() => setCreateShow(false)}
