@@ -7,7 +7,7 @@ import DropdownMenu from "react-bootstrap/DropdownMenu";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownToggle from "react-bootstrap/DropdownToggle";
 import { useState } from "react";
-import ConfirmDialog from "../common/ConfirmDialog";
+import MyModal from "../common/MyModal";
 import { useDeletePost } from "../../hooks/api/use-delete-post";
 import { Toast, ToastContainer } from "react-bootstrap";
 
@@ -46,16 +46,18 @@ export default function PostCard({
             ></DropdownToggle>
             <DropdownMenu>
               <DropdownItem onClick={() => setShow(true)}>Delete</DropdownItem>
-              <ConfirmDialog
+              <MyModal
                 actionTitle="Delete"
                 closeTitle="No"
                 actionVariant="danger"
                 title="Delete Post"
+                hasFooter={true}
                 handleClose={() => setShow(false)}
                 actionFunction={deletePost}
-                body={"Do you want to delete this post?"}
                 show={show}
-              />
+              >
+                <p>Do you want to delete this post?</p>
+              </MyModal>
             </DropdownMenu>
           </Dropdown>
         </div>
