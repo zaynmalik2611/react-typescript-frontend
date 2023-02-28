@@ -9,25 +9,39 @@ import DropdownToggle from "react-bootstrap/DropdownToggle";
 import { useState } from "react";
 import MyModal from "../common/MyModal";
 import { useDeletePost } from "../../hooks/api/use-delete-post";
-import { Toast, ToastContainer } from "react-bootstrap";
+import {
+  Button,
+  Container,
+  Form,
+  FormControl,
+  ListGroup,
+  Toast,
+  ToastContainer,
+} from "react-bootstrap";
+import { useCreateComment } from "../../hooks/api/use-create-comment";
+import { useGetComments } from "../../hooks/api/use-get-comments";
+import CommentsCard from "./CommentsCard";
+import CreateComment from "./CreateComment";
 
 dayjs.extend(relativeTime);
 export default function PostCard({
   post,
-  setDeleteShow,
+  setDeleteNotifShow,
 }: {
   post: Post;
-  setDeleteShow: React.Dispatch<React.SetStateAction<boolean>>;
+  setDeleteNotifShow: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const { Body, Title, Text, Footer } = Card;
   const { mutate } = useDeletePost();
   const [show, setShow] = useState(false);
+  const [showComments, setShowComments] = useState(false);
+  const [showCommentInput, setShowCommentInput] = useState(false);
 
   const deletePost = () => {
     mutate(post.id, {
       onSuccess: () => {
         setShow(false);
-        setDeleteShow(true);
+        setDeleteNotifShow(true);
       },
     });
   };
@@ -66,10 +80,38 @@ export default function PostCard({
       </Body>
       <Footer
         style={{ height: "25px", fontSize: "0.65em" }}
-        className="text-muted small align-middle d-flex flex-column justify-content-center"
+        className=" small d-flex flex-column justify-content-center"
       >
-        {dayjs(post.createdAt).fromNow()}
+        <div className="d-flex justify-content-between">
+          <p
+            className="mb-0 text-primary user-select-none fw-bolder"
+            role="button"
+            onClick={() => setShowCommentInput(true)}
+          >
+            Add Comment
+          </p>
+          <p
+            className={`mb-0 ${
+              post.commentsCount ? "text-primary" : "text-secondary"
+            } `}
+            role={post.commentsCount ? "button" : ""}
+            onClick={() => setShowComments(!showComments)}
+          >
+            {!post.commentsCount
+              ? `No comments here`
+              : `View ${post.commentsCount} comment(s)`}
+          </p>
+          <p className="text-muted mb-0">{dayjs(post.createdAt).fromNow()}</p>
+        </div>
       </Footer>
+      {/* <input type="text" /> */}
+      {showCommentInput && (
+        <CreateComment
+          postId={post.id}
+          setShowCommentInput={setShowCommentInput}
+        />
+      )}
+      {showComments && <CommentsCard postId={post.id} />}
     </Card>
   );
 }

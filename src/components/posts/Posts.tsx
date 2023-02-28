@@ -11,10 +11,11 @@ export type Post = {
   content: string;
   userId: number;
   createdAt: Date;
+  commentsCount: number;
 };
 export default function Posts() {
   const { data: posts } = useGetPosts();
-  const [deleteShow, setDeleteShow] = useState(false);
+  const [deleteNotifShow, setDeleteNotifShow] = useState(false);
 
   return (
     <Container>
@@ -25,7 +26,7 @@ export default function Posts() {
               <PostCard
                 key={post.id}
                 post={post}
-                setDeleteShow={setDeleteShow}
+                setDeleteNotifShow={setDeleteNotifShow}
               />
             ))
           ) : (
@@ -34,8 +35,8 @@ export default function Posts() {
         </Col>
       </Row>
       <NotificationToast
-        onClose={() => setDeleteShow(false)}
-        toastShow={deleteShow}
+        onClose={() => setDeleteNotifShow(false)}
+        toastShow={deleteNotifShow}
         toastTitle={"Post Deleted"}
         toastVariant={"danger"}
       />
